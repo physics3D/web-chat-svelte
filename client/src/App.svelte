@@ -1,5 +1,6 @@
 <script lang="ts">
   import { io } from "socket.io-client";
+  import MessageList from "../components/MessageList.svelte";
 
   let socket = io("http://localhost:3000");
 
@@ -25,12 +26,7 @@
 </script>
 
 <main>
-  <ul id="messages">
-    {#each messages as message}
-      <li>{message}</li>
-    {/each}
-  </ul>
-
+  <MessageList {messages} />
   <form id="form" on:submit|preventDefault={submit}>
     <input id="input" autocomplete="off" bind:value={input} />
     <button>Send</button>
@@ -75,17 +71,5 @@
     border-radius: 3px;
     outline: none;
     color: #fff;
-  }
-
-  #messages {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-  }
-  #messages > li {
-    padding: 0.5rem 1rem;
-  }
-  #messages > li:nth-child(odd) {
-    background: #efefef;
   }
 </style>
