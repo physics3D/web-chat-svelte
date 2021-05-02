@@ -6,10 +6,12 @@
 
   let input: string;
   let messages = [];
+  export let nickname: string;
 
   let submit = () => {
     if (input) {
-      socket.emit("chat message", input);
+      let msg = { author: nickname, text: input };
+      socket.emit("chat message", msg);
       input = "";
     }
   };

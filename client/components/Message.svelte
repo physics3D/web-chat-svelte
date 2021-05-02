@@ -1,8 +1,10 @@
 <script lang="ts">
+  import { text } from "svelte/internal";
+
   export let message;
 </script>
 
-<li>{message}</li>
+<li>{message.author}: {message.text}</li>
 
 <style>
   li {
