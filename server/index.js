@@ -10,6 +10,8 @@ const port = process.env.PORT || 3000;
 
 const messages = [];
 
+const typing_users = [];
+
 function system_message(text) {
   let msg = {
     author: 'system',
@@ -25,13 +27,14 @@ io.on('connection', (socket) => {
     system_message(nickname + ' joined the chat');
 
     socket.emit('sync', messages);
+    socket.emit('typing sync', typing_users);
 
     socket.on('chat message', (msg) => {
       // security so no user sends system messages
       // systemMessage is always false
       let public_msg = {
-        author: msg.author,
-        text: msg.text,
+        author: nickname,
+        text: msg,
         systemMessage: false
       }
 
@@ -40,8 +43,28 @@ io.on('connection', (socket) => {
       io.emit('chat message', public_msg);
     });
 
+    socket.on('typing', () => {
+      let index = typing_users.indexOf(nickname);
+      // if not found
+      if (index < 0) {
+        typing_users.push(nickname);
+        io.emit('typing', typing_users);
+      }
+    });
+
+    socket.on('typing stop', () => {
+      let index = typing_users.indexOf(nickname);
+      typing_users.splice(index, 1);
+      io.emit('typing', typing_users);
+    })
+
     socket.on('disconnect', () => {
       system_message(nickname + ' left the chat');
+
+      // remove user from typing ones
+      let index = typing_users.indexOf(nickname);
+      typing_users.splice(index, 1);
+      io.emit('typing', typing_users);
     });
   });
 });

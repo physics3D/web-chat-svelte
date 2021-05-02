@@ -8,6 +8,7 @@
   let input: string;
   let nickname;
   let messages = [];
+  let typing_users = [];
 
   let logged_in = false;
 
@@ -25,15 +26,29 @@
   };
 
   let handleMessage = (e) => {
-    let msg = {
-      author: nickname,
-      text: e.detail,
-    };
-    socket.emit("chat message", msg);
+    socket.emit("chat message", e.detail);
+    socket.emit("typing stop");
+  };
+
+  let handleTyping = () => {
+    let index = typing_users.indexOf(nickname);
+    // if not found
+    if (index < 0) {
+      typing_users.push(nickname);
+      socket.emit("typing");
+    }
+  };
+
+  let handleTypingStop = () => {
+    socket.emit("typing stop");
   };
 
   socket.on("sync", (msgs) => {
     messages = msgs;
+  });
+
+  socket.on("typing sync", (typing_usrs) => {
+    typing_users = typing_usrs;
   });
 
   socket.on("chat message", (msg) => {
@@ -41,13 +56,23 @@
     // to update svelte
     messages = messages;
   });
+
+  socket.on("typing", (typing) => {
+    typing_users = typing;
+  });
 </script>
 
 <main>
   {#if !logged_in}
     <Login on:login={handleLogin} />
   {:else}
-    <Chat on:chat_message={handleMessage} {messages} />
+    <Chat
+      on:chat_message={handleMessage}
+      on:typing={handleTyping}
+      on:typing_stop={handleTypingStop}
+      {messages}
+      {typing_users}
+    />
   {/if}
 </main>
 
