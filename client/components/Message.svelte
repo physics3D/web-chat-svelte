@@ -1,16 +1,12 @@
 <script lang="ts">
-  import { text } from "svelte/internal";
+  import SystemMessage from "./SystemMessage.svelte";
+  import UserMessage from "./UserMessage.svelte";
 
   export let message;
 </script>
 
-<li>{message.author}: {message.text}</li>
-
-<style>
-  li {
-    padding: 0.5rem 1rem;
-  }
-  li:nth-child(odd) {
-    background: #efefef;
-  }
-</style>
+{#if message.systemMessage}
+  <SystemMessage {message} />
+{:else}
+  <UserMessage {message} />
+{/if}

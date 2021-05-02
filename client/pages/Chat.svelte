@@ -1,30 +1,18 @@
 <script lang="ts">
-  import { io } from "socket.io-client";
+  import { createEventDispatcher } from "svelte";
   import MessageList from "../components/MessageList.svelte";
 
-  let socket = io("http://localhost:3000");
-
   let input: string;
-  let messages = [];
-  export let nickname: string;
+  export let messages;
+
+  let dispatch = createEventDispatcher();
 
   let submit = () => {
     if (input) {
-      let msg = { author: nickname, text: input };
-      socket.emit("chat message", msg);
+      dispatch("chat_message", input);
       input = "";
     }
   };
-
-  socket.on("sync", (msgs) => {
-    messages = msgs;
-  });
-
-  socket.on("chat message", (msg) => {
-    messages.push(msg);
-    // to update svelte
-    messages = messages;
-  });
 </script>
 
 <MessageList {messages} />

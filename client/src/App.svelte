@@ -21,6 +21,15 @@
   let handleLogin = (e) => {
     logged_in = true;
     nickname = e.detail;
+    socket.emit("login", nickname);
+  };
+
+  let handleMessage = (e) => {
+    let msg = {
+      author: nickname,
+      text: e.detail,
+    };
+    socket.emit("chat message", msg);
   };
 
   socket.on("sync", (msgs) => {
@@ -38,7 +47,7 @@
   {#if !logged_in}
     <Login on:login={handleLogin} />
   {:else}
-    <Chat {nickname} />
+    <Chat on:chat_message={handleMessage} {messages} />
   {/if}
 </main>
 
