@@ -13,6 +13,10 @@
     }
   };
 
+  socket.on("sync", (msgs) => {
+    messages = msgs;
+  });
+
   socket.on("chat message", (msg) => {
     messages.push(msg);
     // to update svelte
