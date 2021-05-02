@@ -27,6 +27,8 @@ io.on('connection', (socket) => {
     socket.emit('sync', messages);
 
     socket.on('chat message', (msg) => {
+      // security so no user sends system messages
+      // systemMessage is always false
       let public_msg = {
         author: msg.author,
         text: msg.text,
