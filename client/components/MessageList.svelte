@@ -1,12 +1,17 @@
 <script lang="ts">
-  import Message from "../components/Message.svelte";
+  import UserMessage from "../components/UserMessage.svelte";
+  import SystemMessage from "../components/SystemMessage.svelte";
 
   export let messages;
 </script>
 
 <ul>
   {#each messages as message}
-    <Message {message} />
+    {#if message.systemMessage}
+      <SystemMessage {message} />
+    {:else}
+      <UserMessage {message} />
+    {/if}
   {/each}
 </ul>
 
