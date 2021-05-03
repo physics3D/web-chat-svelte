@@ -67,11 +67,12 @@
     <Login on:login={handleLogin} />
   {:else}
     <Chat
+      {messages}
+      {typing_users}
+      {nickname}
       on:chat_message={handleMessage}
       on:typing={handleTyping}
       on:typing_stop={handleTypingStop}
-      {messages}
-      {typing_users}
     />
   {/if}
 </main>

@@ -5,6 +5,7 @@
 
   export let messages;
   export let typing_users;
+  export let nickname;
 
   let dispatch = createEventDispatcher();
 
@@ -24,4 +25,9 @@
 </script>
 
 <MessageList {messages} />
-<ChatForm {typing_users} on:input={handleInput} on:submit={handleSubmit} />
+<ChatForm
+  {typing_users}
+  {nickname}
+  on:input={handleInput}
+  on:submit={handleSubmit}
+/>

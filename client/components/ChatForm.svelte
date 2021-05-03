@@ -1,7 +1,9 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
+  import TypingUsers from "./TypingUsers.svelte";
 
   export let typing_users;
+  export let nickname;
 
   let input;
   let dispatch = createEventDispatcher();
@@ -16,7 +18,7 @@
   };
 </script>
 
-<p>{typing_users}</p>
+<TypingUsers {typing_users} {nickname} />
 <form id="form" on:submit|preventDefault={handleSubmit}>
   <input
     id="input"
