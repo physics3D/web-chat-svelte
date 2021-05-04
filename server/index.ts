@@ -1,19 +1,23 @@
-/* eslint-disable camelcase */
-/* eslint-disable no-console */
-const express = require('express');
-const http = require('http');
-const socketio = require('socket.io');
+import socketio, { Socket } from 'socket.io';
+import express from 'express';
+import http from 'http';
 
 const app = express();
-const server = http.Server(app);
-const io = socketio(server);
+const server = new http.Server(app);
+const io = new socketio.Server(server);
 const port = process.env.PORT || 3000;
 
-const messages = [];
+type Message = {
+  author: string;
+  text: string;
+  systemMessage: boolean;
+};
 
-const typing_users = [];
+const messages: Message[] = [];
 
-function system_message(text) {
+const typing_users: string[] = [];
+
+function system_message(text: string) {
   const msg = {
     author: 'system',
     text,
@@ -23,14 +27,14 @@ function system_message(text) {
   io.emit('chat message', msg);
 }
 
-io.on('connection', (socket) => {
-  socket.on('login', (nickname) => {
+io.on('connection', (socket: Socket) => {
+  socket.on('login', (nickname: string) => {
     system_message(`${nickname} joined the chat`);
 
     socket.emit('sync', messages);
     socket.emit('typing sync', typing_users);
 
-    socket.on('chat message', (msg) => {
+    socket.on('chat message', (msg: string) => {
       // security so no user sends system messages
       // systemMessage is always false
       const public_msg = {
