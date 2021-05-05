@@ -11,16 +11,9 @@
   let typing_users = [];
 
   let logged_in = false;
-
-  let submit = () => {
-    if (input) {
-      socket.emit("chat message", input);
-      input = "";
-    }
-  };
+  let user_exists = false;
 
   let handleLogin = (e) => {
-    logged_in = true;
     nickname = e.detail;
     socket.emit("login", nickname);
   };
@@ -60,11 +53,20 @@
   socket.on("typing", (typing) => {
     typing_users = typing;
   });
+
+  socket.on("login successful", (success) => {
+    if (success) {
+      user_exists = false;
+      logged_in = true;
+    } else {
+      user_exists = true;
+    }
+  });
 </script>
 
 <main>
   {#if !logged_in}
-    <Login on:login={handleLogin} />
+    <Login on:login={handleLogin} {user_exists} />
   {:else}
     <Chat
       {messages}
