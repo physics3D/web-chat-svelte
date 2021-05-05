@@ -2,7 +2,13 @@
   import UserMessage from "../components/UserMessage.svelte";
   import SystemMessage from "../components/SystemMessage.svelte";
 
-  export let messages;
+  type Message = {
+    author: string;
+    text: string;
+    systemMessage: boolean;
+  };
+
+  export let messages: Message[];
 </script>
 
 <ul>

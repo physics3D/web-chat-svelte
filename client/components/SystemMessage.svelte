@@ -1,7 +1,11 @@
 <script lang="ts">
-  import { text } from "svelte/internal";
+  type Message = {
+    author: string;
+    text: string;
+    systemMessage: boolean;
+  };
 
-  export let message;
+  export let message: Message;
 </script>
 
 <li>{message.text}</li>

@@ -5,20 +5,25 @@
 
   let socket = io("http://localhost:3000");
 
-  let input: string;
-  let nickname;
-  let messages = [];
-  let typing_users = [];
+  type Message = {
+    author: string;
+    text: string;
+    systemMessage: boolean;
+  };
+
+  let nickname: string;
+  let messages: Message[];
+  let typing_users: string[];
 
   let logged_in = false;
   let user_exists = false;
 
-  let handleLogin = (e) => {
+  let handleLogin = (e: CustomEvent) => {
     nickname = e.detail;
     socket.emit("login", nickname);
   };
 
-  let handleMessage = (e) => {
+  let handleMessage = (e: CustomEvent) => {
     socket.emit("chat message", e.detail);
     socket.emit("typing stop");
   };

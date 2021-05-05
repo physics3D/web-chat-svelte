@@ -2,10 +2,10 @@
   import { createEventDispatcher } from "svelte";
   import TypingUsers from "./TypingUsers.svelte";
 
-  export let typing_users;
-  export let nickname;
+  export let typing_users: string[];
+  export let nickname: string;
 
-  let input;
+  let input: string;
   let dispatch = createEventDispatcher();
 
   let handleSubmit = () => {

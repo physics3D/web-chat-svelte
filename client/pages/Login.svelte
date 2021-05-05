@@ -1,8 +1,8 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
 
-  let nickname;
-  export let user_exists;
+  let nickname: string;
+  export let user_exists: boolean;
 
   let dispatcher = createEventDispatcher();
   let handleLogin = () => {

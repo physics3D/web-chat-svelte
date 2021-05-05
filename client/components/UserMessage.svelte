@@ -1,5 +1,11 @@
 <script lang="ts">
-  export let message;
+  type Message = {
+    author: string;
+    text: string;
+    systemMessage: boolean;
+  };
+
+  export let message: Message;
 </script>
 
 <li>{message.author}: {message.text}</li>
