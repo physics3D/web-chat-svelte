@@ -12,8 +12,8 @@
   };
 
   let nickname: string;
-  let messages: Message[];
-  let typing_users: string[];
+  let messages: Message[] = [];
+  let typing_users: string[] = [];
 
   let logged_in = false;
   let user_exists = false;
