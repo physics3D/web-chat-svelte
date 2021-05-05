@@ -74,8 +74,10 @@ io.on('connection', (socket: Socket) => {
         system_message(`${nickname} left the chat`);
 
         // remove user from typing ones
-        const index = typing_users.indexOf(nickname);
+        let index = typing_users.indexOf(nickname);
         typing_users.splice(index, 1);
+        index = users.indexOf(nickname);
+        users.splice(index, 1);
         io.emit('typing', typing_users);
       });
     }
