@@ -1,8 +1,10 @@
 import socketio, { Socket } from 'socket.io';
 import express from 'express';
 import http from 'http';
+import path from 'path';
 
 const app = express();
+app.use('/', express.static(path.join(`${__dirname}/../client/public`)));
 const server = new http.Server(app);
 const io = new socketio.Server(server);
 const port = process.env.PORT || 3000;

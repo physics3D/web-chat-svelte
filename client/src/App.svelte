@@ -3,7 +3,7 @@
   import Chat from "../pages/Chat.svelte";
   import Login from "../pages/Login.svelte";
 
-  let socket = io("http://localhost:3000");
+  let socket = io();
 
   type Message = {
     author: string;
