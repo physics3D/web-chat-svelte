@@ -26,5 +26,9 @@
     list-style-type: none;
     margin: 0;
     padding: 0;
+    flex: content;
+    overflow: auto;
+    /* cheat to fix scroll issue with msg bar */
+    margin-bottom: var(--msg-form-height);
   }
 </style>

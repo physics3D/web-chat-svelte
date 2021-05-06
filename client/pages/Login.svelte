@@ -29,4 +29,42 @@
 </form>
 
 <style>
+  h1 {
+    color: var(--author-color);
+    text-align: center;
+  }
+
+  form {
+    border: none;
+    box-sizing: content-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 0.25rem;
+    margin-left: 3rem;
+    margin-right: 3rem;
+    padding: 1rem;
+    border-radius: 1rem;
+  }
+
+  button {
+    border-radius: 999px;
+    font-size: large;
+    box-shadow: 0 0 20px black;
+    border: none;
+    background: var(--dark-bg-color);
+    color: var(--text-color);
+    display: block;
+    padding: 1rem;
+    margin: 0.25rem;
+  }
+
+  input {
+    border: none;
+    border-radius: 2rem;
+    display: block;
+    font-size: large;
+    padding: 0.5rem;
+    margin: 1rem;
+  }
 </style>

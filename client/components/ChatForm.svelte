@@ -18,47 +18,48 @@
   };
 </script>
 
-<TypingUsers {typing_users} {nickname} />
-<form id="form" on:submit|preventDefault={handleSubmit}>
-  <input
-    id="input"
-    autocomplete="off"
-    bind:value={input}
-    on:input={handleInput}
-  />
-  <button>Send</button>
-</form>
+<div>
+  <TypingUsers {typing_users} {nickname} />
+  <form on:submit|preventDefault={handleSubmit}>
+    <input autocomplete="off" bind:value={input} on:input={handleInput} />
+    <button><img src="assets/send.svg" alt="" /></button>
+  </form>
+</div>
 
 <style>
-  #form {
-    background: rgba(0, 0, 0, 0.15);
-    padding: 0.25rem;
+  div {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    display: flex;
-    height: 3rem;
     box-sizing: border-box;
-    backdrop-filter: blur(10px);
+    background-color: var(--bg-color);
   }
-  #input {
+
+  form {
+    padding: 0.25rem;
+    display: flex;
+    box-sizing: border-box;
+    height: var(--msg-form-height);
+  }
+
+  input {
     border: none;
     padding: 0 1rem;
     flex-grow: 1;
     border-radius: 2rem;
     margin: 0.25rem;
+    background-color: var(--input-color);
+    color: #ffffff;
   }
-  #input:focus {
-    outline: none;
-  }
-  #form > button {
-    background: #333;
+
+  button {
+    background: var(--dark-bg-color);
     border: none;
     padding: 0 1rem;
-    margin: 0.25rem;
-    border-radius: 3px;
+    border-radius: 1rem;
     outline: none;
     color: #fff;
+    box-shadow: none;
   }
 </style>

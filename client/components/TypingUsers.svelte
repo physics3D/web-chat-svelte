@@ -33,4 +33,9 @@
 
 <p>{typing_users_string}</p>
 
-<style></style>
+<style>
+  p {
+    margin: 0.25rem;
+    color: var(--text-color);
+  }
+</style>

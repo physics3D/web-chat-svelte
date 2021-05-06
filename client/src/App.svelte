@@ -86,9 +86,6 @@
 
 <style>
   main {
-    margin: 0;
-    padding-bottom: 3rem;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-      Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
   }
 </style>
