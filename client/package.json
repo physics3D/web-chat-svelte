@@ -6,7 +6,8 @@
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "start": "sirv public --no-clear --cors",
-    "validate": "svelte-check"
+    "validate": "svelte-check",
+    "postinstall": "npm run build"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
