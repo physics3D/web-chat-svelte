@@ -2,20 +2,16 @@ import socketio, { Socket } from 'socket.io';
 import express from 'express';
 import http from 'http';
 import path from 'path';
+import monk from 'monk';
 
 const app = express();
 app.use('/', express.static(path.join(`${__dirname}/../client/public`)));
 const server = new http.Server(app);
 const io = new socketio.Server(server);
 const port = process.env.PORT || 3000;
+const db = monk('mongodb://localhost:27017/web-chat-svelte');
 
-type Message = {
-  author: string;
-  text: string;
-  systemMessage: boolean;
-};
-
-const messages: Message[] = [];
+const messages = db.get('messages');
 
 const users: string[] = [];
 const typing_users: string[] = [];
@@ -26,12 +22,12 @@ function system_message(text: string) {
     text,
     systemMessage: true,
   };
-  messages.push(msg);
+  messages.insert(msg);
   io.emit('chat message', msg);
 }
 
 io.on('connection', (socket: Socket) => {
-  socket.on('login', (nickname: string) => {
+  socket.on('login', async (nickname: string) => {
     const user_exists = users.indexOf(nickname) >= 0;
     if (user_exists) {
       socket.emit('login successful', false);
@@ -40,7 +36,9 @@ io.on('connection', (socket: Socket) => {
       users.push(nickname);
       system_message(`${nickname} joined the chat`);
 
-      socket.emit('sync', messages);
+      const msgs = await messages.find({});
+
+      socket.emit('sync', msgs);
       socket.emit('typing sync', typing_users);
 
       socket.on('chat message', (msg: string) => {
@@ -52,8 +50,8 @@ io.on('connection', (socket: Socket) => {
           systemMessage: false,
         };
 
-        messages.push(public_msg);
-        console.log(public_msg);
+        const inserted = messages.insert(public_msg);
+        console.log(inserted);
         io.emit('chat message', public_msg);
       });
 
@@ -72,7 +70,7 @@ io.on('connection', (socket: Socket) => {
         io.emit('typing', typing_users);
       });
 
-      socket.on('disconnect', () => {
+      socket.on('disconnect', async () => {
         system_message(`${nickname} left the chat`);
 
         // remove user from typing ones
