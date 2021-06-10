@@ -1,7 +1,9 @@
 <script lang="ts">
   import { io } from "socket.io-client";
   import Chat from "../pages/Chat.svelte";
+  import Home from "../pages/Home.svelte";
   import Login from "../pages/Login.svelte";
+  import Register from "../pages/Register.svelte";
 
   let socket = io();
 
@@ -11,16 +13,28 @@
     systemMessage: boolean;
   };
 
+  enum Page {
+    Home,
+    Register,
+    Login,
+    Chat,
+  }
+
   let nickname: string;
   let messages: Message[] = [];
   let typing_users: string[] = [];
 
-  let logged_in = false;
+  let page = Page.Home;
   let user_exists = false;
+  let login_successful = true;
 
   let handleLogin = (e: CustomEvent) => {
-    nickname = e.detail;
-    socket.emit("login", nickname);
+    nickname = e.detail.nickname;
+    socket.emit("login", e.detail);
+  };
+
+  let handleRegister = (e: CustomEvent) => {
+    socket.emit("register", e.detail);
   };
 
   let handleMessage = (e: CustomEvent) => {
@@ -39,6 +53,10 @@
 
   let handleTypingStop = () => {
     socket.emit("typing stop");
+  };
+
+  let handleSwitchPage = (e: CustomEvent) => {
+    page = e.detail;
   };
 
   socket.on("sync", (msgs) => {
@@ -60,19 +78,28 @@
   });
 
   socket.on("login successful", (success) => {
+    login_successful = success;
     if (success) {
-      user_exists = false;
-      logged_in = true;
-    } else {
-      user_exists = true;
+      page = Page.Chat;
+    }
+  });
+
+  socket.on("register successful", (success) => {
+    user_exists = !success;
+    if (success) {
+      page = Page.Login;
     }
   });
 </script>
 
 <main>
-  {#if !logged_in}
-    <Login on:login={handleLogin} {user_exists} />
-  {:else}
+  {#if page == Page.Home}
+    <Home on:switchPage={handleSwitchPage} />
+  {:else if page == Page.Register}
+    <Register on:register={handleRegister} {user_exists} />
+  {:else if page == Page.Login}
+    <Login on:login={handleLogin} {login_successful} />
+  {:else if page == Page.Chat}
     <Chat
       {messages}
       {typing_users}

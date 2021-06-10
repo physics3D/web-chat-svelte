@@ -1,34 +1,36 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
 
+  export let user_exists: boolean;
+  let empty_username: boolean;
+
   let nickname: string;
   let password: string;
-  let empty_username: boolean;
-  export let login_successful: boolean;
 
   let dispatcher = createEventDispatcher();
-  let handleLogin = () => {
+  let handleRegister = () => {
     if (nickname) {
       empty_username = false;
-      dispatcher("login", { nickname, password });
+      dispatcher("register", { nickname, password });
     } else {
       empty_username = true;
     }
   };
 </script>
 
-<h1>Login</h1>
-<p>Please enter your nickname</p>
-{#if empty_username}
-  <p>The username must not be empty</p>
-{/if}
-{#if !login_successful}
-  <p>Password or username invalid</p>
-{/if}
-<form on:submit|preventDefault={handleLogin}>
+<h1>Register</h1>
+<form on:submit|preventDefault={handleRegister}>
+  {#if user_exists}
+    <p>This username already exists</p>
+  {/if}
+  {#if empty_username}
+    <p>The username must not be empty</p>
+  {/if}
+  <p>Please enter your nickname</p>
   <input type="text" bind:value={nickname} />
+  <p>Please enter your password</p>
   <input type="password" bind:value={password} />
-  <button>Join the chat</button>
+  <button>Create account</button>
 </form>
 
 <style>
