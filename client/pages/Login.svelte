@@ -18,7 +18,6 @@
 </script>
 
 <h1>Login</h1>
-<p>Please enter your nickname</p>
 {#if empty_username}
   <p>The username must not be empty</p>
 {/if}
@@ -26,8 +25,10 @@
   <p>Password or username invalid</p>
 {/if}
 <form on:submit|preventDefault={handleLogin}>
-  <input type="text" bind:value={nickname} />
-  <input type="password" bind:value={password} />
+  <p>Please enter your nickname</p>
+  <input type="text" bind:value={nickname} placeholder="Your nickname" />
+  <p>Please enter your password</p>
+  <input type="password" bind:value={password} placeholder="Your password" />
   <button>Join the chat</button>
 </form>
 

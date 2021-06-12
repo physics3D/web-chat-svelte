@@ -12,8 +12,8 @@ const port = process.env.PORT || 3000;
 const db = monk('mongodb://localhost:27017/web-chat-svelte');
 
 const messages = db.get('messages');
-
 const users = db.get('users');
+
 const connected_users: string[] = [];
 const typing_users: string[] = [];
 
@@ -38,26 +38,26 @@ async function check_user_exists(nickname: string): Promise<boolean> {
 }
 
 io.on('connection', (socket: Socket) => {
-  socket.on('register', async (user_data) => {
+  socket.on('register', async (user_data, callback) => {
     const { nickname } = user_data;
     const { password } = user_data;
     const user_exists = await check_user_exists(nickname);
     if (user_exists) {
-      socket.emit('register successful', false);
+      callback(false);
     } else {
-      socket.emit('register successful', true);
+      callback(true);
       users.insert({ nickname, password });
     }
   });
 
-  socket.on('login', async (user_data) => {
+  socket.on('login', async (user_data, callback) => {
     const { nickname } = user_data;
     const { password } = user_data;
     const login_successful = await verify_user(nickname, password);
     if (!login_successful) {
-      socket.emit('login successful', false);
+      callback(false);
     } else {
-      socket.emit('login successful', true);
+      callback(true);
       connected_users.push(nickname);
       system_message(`${nickname} joined the chat`);
 

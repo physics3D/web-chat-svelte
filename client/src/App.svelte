@@ -30,11 +30,21 @@
 
   let handleLogin = (e: CustomEvent) => {
     nickname = e.detail.nickname;
-    socket.emit("login", e.detail);
+    socket.emit("login", e.detail, (success: boolean) => {
+      login_successful = success;
+      if (success) {
+        page = Page.Chat;
+      }
+    });
   };
 
   let handleRegister = (e: CustomEvent) => {
-    socket.emit("register", e.detail);
+    socket.emit("register", e.detail, (success: boolean) => {
+      user_exists = !success;
+      if (success) {
+        page = Page.Login;
+      }
+    });
   };
 
   let handleMessage = (e: CustomEvent) => {
@@ -75,20 +85,6 @@
 
   socket.on("typing", (typing) => {
     typing_users = typing;
-  });
-
-  socket.on("login successful", (success) => {
-    login_successful = success;
-    if (success) {
-      page = Page.Chat;
-    }
-  });
-
-  socket.on("register successful", (success) => {
-    user_exists = !success;
-    if (success) {
-      page = Page.Login;
-    }
   });
 </script>
 

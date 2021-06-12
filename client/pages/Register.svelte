@@ -27,9 +27,9 @@
     <p>The username must not be empty</p>
   {/if}
   <p>Please enter your nickname</p>
-  <input type="text" bind:value={nickname} />
+  <input type="text" bind:value={nickname} placeholder="Your nickname" />
   <p>Please enter your password</p>
-  <input type="password" bind:value={password} />
+  <input type="password" bind:value={password} placeholder="Your password" />
   <button>Create account</button>
 </form>
 
