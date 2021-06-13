@@ -12,7 +12,6 @@
 
 <style>
   li {
-    list-style: none;
     color: var(--text-color);
     display: flex;
     align-items: center;

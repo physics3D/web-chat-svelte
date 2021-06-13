@@ -1,5 +1,6 @@
 <script lang="ts">
   import { io } from "socket.io-client";
+  import Sidebar from "../components/Sidebar.svelte";
   import Chat from "../pages/Chat.svelte";
   import Home from "../pages/Home.svelte";
   import Login from "../pages/Login.svelte";
@@ -88,27 +89,34 @@
   });
 </script>
 
-<main>
-  {#if page == Page.Home}
-    <Home on:switchPage={handleSwitchPage} />
-  {:else if page == Page.Register}
-    <Register on:register={handleRegister} {user_exists} />
-  {:else if page == Page.Login}
-    <Login on:login={handleLogin} {login_successful} />
-  {:else if page == Page.Chat}
-    <Chat
-      {messages}
-      {typing_users}
-      {nickname}
-      on:chat_message={handleMessage}
-      on:typing={handleTyping}
-      on:typing_stop={handleTypingStop}
-    />
-  {/if}
-</main>
+<div>
+  <Sidebar on:switchPage={handleSwitchPage} />
+  <main>
+    {#if page == Page.Home}
+      <Home on:switchPage={handleSwitchPage} />
+    {:else if page == Page.Register}
+      <Register on:register={handleRegister} {user_exists} />
+    {:else if page == Page.Login}
+      <Login on:login={handleLogin} {login_successful} />
+    {:else if page == Page.Chat}
+      <Chat
+        {messages}
+        {typing_users}
+        {nickname}
+        on:chat_message={handleMessage}
+        on:typing={handleTyping}
+        on:typing_stop={handleTypingStop}
+      />
+    {/if}
+  </main>
+</div>
 
 <style>
+  div {
+    display: flex;
+  }
   main {
     background-color: var(--bg-color);
+    width: 100%;
   }
 </style>

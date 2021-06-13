@@ -29,6 +29,10 @@
 <style>
   div {
     position: fixed;
+    margin: 0;
+    padding: 0;
+    /* cheat to fix overlapping issue with sidebar */
+    margin-left: var(--sidebar-width);
     bottom: 0;
     left: 0;
     right: 0;
