@@ -14,6 +14,9 @@ const db = monk('mongodb://localhost:27017/web-chat-svelte');
 const messages = db.get('messages');
 const users = db.get('users');
 
+// index for better performance
+users.createIndex('nickname');
+
 const connected_users: string[] = [];
 const typing_users: string[] = [];
 
@@ -28,8 +31,11 @@ function system_message(text: string) {
 }
 
 async function verify_user(nickname: string, password: string): Promise<boolean> {
-  const user = await users.findOne({ nickname, password });
-  return user !== null;
+  const user = await users.findOne({ nickname });
+  if (user === null) {
+    return false;
+  }
+  return user.password === password;
 }
 
 async function check_user_exists(nickname: string): Promise<boolean> {
