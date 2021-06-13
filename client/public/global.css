@@ -22,3 +22,7 @@ input:focus {
 img {
   filter: grayscale() invert();
 }
+
+button {
+  cursor: pointer;
+}
