@@ -85,6 +85,7 @@
     transition: width 200ms ease;
     height: 100%;
     z-index: 1;
+    box-shadow: 0 0 5px var(--bg-color);
   }
 
   nav:hover {
