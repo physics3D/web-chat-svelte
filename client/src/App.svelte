@@ -5,6 +5,7 @@
   import Home from "../pages/Home.svelte";
   import Login from "../pages/Login.svelte";
   import Register from "../pages/Register.svelte";
+  import Settings from "../pages/Settings.svelte";
 
   let socket = io();
 
@@ -19,6 +20,7 @@
     Register,
     Login,
     Chat,
+    Settings,
   }
 
   let nickname: string;
@@ -28,6 +30,11 @@
   let page = Page.Home;
   let user_exists = false;
   let login_successful = true;
+  let logged_in = false;
+  $: {
+    logged_in = nickname != null;
+  }
+  let change_password_success = true;
 
   let handleLogin = (e: CustomEvent) => {
     nickname = e.detail.nickname;
@@ -70,6 +77,12 @@
     page = e.detail;
   };
 
+  let handleChangePassword = (e: CustomEvent) => {
+    socket.emit("change password", e.detail, (success: boolean) => {
+      change_password_success = success;
+    });
+  };
+
   socket.on("sync", (msgs) => {
     messages = msgs;
   });
@@ -106,6 +119,13 @@
         on:chat_message={handleMessage}
         on:typing={handleTyping}
         on:typing_stop={handleTypingStop}
+      />
+    {:else if page == Page.Settings}
+      <Settings
+        {nickname}
+        {logged_in}
+        {change_password_success}
+        on:changePassword={handleChangePassword}
       />
     {/if}
   </main>

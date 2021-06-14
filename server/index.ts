@@ -114,6 +114,18 @@ io.on('connection', (socket: Socket) => {
         connected_users.splice(index, 1);
         io.emit('typing', typing_users);
       });
+
+      socket.on('change password', async (password_data, password_callback) => {
+        const { old_password } = password_data;
+        const { new_password } = password_data;
+        const hashed_password = await argon2.hash(new_password);
+        if (await verify_user(nickname, old_password)) {
+          await users.findOneAndUpdate({ nickname }, { $set: { hashed_password } });
+          password_callback(true);
+        } else {
+          password_callback(false);
+        }
+      });
     }
   });
 });

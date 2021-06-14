@@ -8,16 +8,23 @@
     Register,
     Login,
     Chat,
+    Settings,
   }
 
   let switchToHome = () => {
     dispatcher("switchPage", Page.Home);
   };
+
   let switchToLogin = () => {
     dispatcher("switchPage", Page.Login);
   };
+
   let switchToChat = () => {
     dispatcher("switchPage", Page.Chat);
+  };
+
+  let switchToSettings = () => {
+    dispatcher("switchPage", Page.Settings);
   };
 </script>
 
@@ -36,6 +43,13 @@
     <li class="nav-item">
       <div class="nav-link" on:click={switchToChat}>
         <img src="assets/chat.svg" alt="" /><span class="nav-text">Chat</span>
+      </div>
+    </li>
+    <li class="nav-item">
+      <div class="nav-link" on:click={switchToSettings}>
+        <img src="assets/settings.svg" alt="" /><span class="nav-text"
+          >Settings</span
+        >
       </div>
     </li>
     <li class="nav-item">

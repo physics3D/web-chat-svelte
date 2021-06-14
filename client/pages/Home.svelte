@@ -8,6 +8,7 @@
     Register,
     Login,
     Chat,
+    Settings,
   }
 
   let switchToRegister = () => {
