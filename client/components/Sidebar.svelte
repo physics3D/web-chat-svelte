@@ -15,6 +15,10 @@
     dispatcher("switchPage", Page.Home);
   };
 
+  let switchToRegister = () => {
+    dispatcher("switchPage", Page.Register);
+  };
+
   let switchToLogin = () => {
     dispatcher("switchPage", Page.Login);
   };
@@ -38,6 +42,13 @@
     <li class="nav-item">
       <div class="nav-link" on:click={switchToLogin}>
         <img src="assets/login.svg" alt="" /><span class="nav-text">Login</span>
+      </div>
+    </li>
+    <li class="nav-item">
+      <div class="nav-link" on:click={switchToRegister}>
+        <img src="assets/register.svg" alt="" /><span class="nav-text"
+          >Register</span
+        >
       </div>
     </li>
     <li class="nav-item">
