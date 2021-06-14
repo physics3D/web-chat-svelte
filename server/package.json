@@ -6,12 +6,13 @@
     "dev": "ts-node-dev index.ts",
     "build": "tsc",
     "start": "node index.js",
-		"postinstall": "npm install --prefix ../client/"
+    "postinstall": "npm install --prefix ../client/"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "argon2": "^0.28.2",
     "express": "^4.17.1",
     "monk": "^7.3.4",
     "path": "^0.12.7",

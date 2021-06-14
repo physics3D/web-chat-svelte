@@ -3,6 +3,7 @@ import express from 'express';
 import http from 'http';
 import path from 'path';
 import monk from 'monk';
+import * as argon2 from 'argon2';
 
 const app = express();
 app.use('/', express.static(path.join(`${__dirname}/../client/public`)));
@@ -35,7 +36,8 @@ async function verify_user(nickname: string, password: string): Promise<boolean>
   if (user === null) {
     return false;
   }
-  return user.password === password;
+  const password_correct = await argon2.verify(user.hashed_password, password);
+  return password_correct;
 }
 
 async function check_user_exists(nickname: string): Promise<boolean> {
@@ -52,7 +54,8 @@ io.on('connection', (socket: Socket) => {
       callback(false);
     } else {
       callback(true);
-      users.insert({ nickname, password });
+      const hashed_password = await argon2.hash(password);
+      users.insert({ nickname, hashed_password });
     }
   });
 
