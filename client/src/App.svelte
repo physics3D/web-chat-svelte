@@ -116,6 +116,7 @@
         {messages}
         {typing_users}
         {nickname}
+        {logged_in}
         on:chat_message={handleMessage}
         on:typing={handleTyping}
         on:typing_stop={handleTypingStop}
