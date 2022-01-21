@@ -14,7 +14,7 @@
   "dependencies": {
     "argon2": "^0.28.2",
     "express": "^4.17.1",
-    "monk": "^7.3.4",
+    "mongodb": "^4.3.0",
     "path": "^0.12.7",
     "socket.io": "^4.0.1",
     "ts-node-dev": "^1.1.6"
